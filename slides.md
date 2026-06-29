@@ -1195,8 +1195,8 @@ Execution Time: 0.1 ms  ← 🚀
 ```sql
 SELECT
   schemaname,
-  tablename,
-  indexname,
+  relname,
+  indexrelname
   idx_scan AS times_used,
   pg_size_pretty(pg_relation_size(
     indexrelid
@@ -1240,6 +1240,18 @@ High `seq_tup_read` on a large table = Postgres is doing full scans. Consider ad
 </div>
 
 </div>
+
+<!--
+relname	Nom de la table. 
+
+seq_scan : Nombre de fois qu'on a lancé un scan séquentiel sur la table (lecture complète sans index). 
+
+seq_tup_read : Nombre total de lignes lues lors des scans séquentiels (c'est le vrai coût I/O). 
+
+idx_scan : Nombre de fois qu'on a utilisé un index pour accéder à la table (pour comparer). 
+
+n_live_tup : Nombre de lignes vivantes actuellement dans la table (lignes non supprimées).
+-->
 
 ---
 
@@ -1357,6 +1369,12 @@ CREATE INDEX idx_jobs_unprocessed
 </div>
 
 </div>
+
+<!--
+INCLUDE = ajouter un post-it sur la couverture du livre avec "auteur" et "genre" (tu lis le post-it, pas besoin d'ouvrir le livre) ← aide la lecture 
+
+Partial = créer un mini-catalogue avec SEULEMENT les livres "en cours" (~50k livres) au lieu de tous les 1M ← aide l'indexation et la recherche
+-->
 
 ---
 layout: center
