@@ -20,6 +20,10 @@ mdc: true
   How they work · What they cost · When to use them
 </div>
 
+<!--
+Aurel
+-->
+
 ---
 layout: center
 class: text-center
@@ -273,6 +277,10 @@ layout: section
 
 *The data structures under the hood*
 
+<!--
+Glenn
+-->
+
 ---
 layout: center
 class: text-center
@@ -486,6 +494,10 @@ Heap:     Page 4, row 2 → { age: 55, name: "Bob" }
 
 </div>
 
+<!--
+Demo live avec l'outil
+-->
+
 ---
 
 # B-Tree: range queries — the leaf chain
@@ -642,6 +654,10 @@ No WAL entry → operation never happened
 
 </div>
 
+<!--
+Aurel
+-->
+
 ---
 layout: two-cols
 ---
@@ -698,6 +714,10 @@ WHERE tags @> ARRAY['postgres'];
 
 </div>
 
+<!--
+Aurel
+-->
+
 ---
 layout: two-cols
 ---
@@ -744,6 +764,10 @@ WHERE during && '[2024-06-01, 2024-06-15]'::daterange;
 </div>
 
 </div>
+
+<!--
+Aurel
+-->
 
 ---
 layout: two-cols
@@ -793,6 +817,10 @@ A B-Tree on the same column: several hundred MB.
 </div>
 
 </div>
+
+<!--
+Aurel
+-->
 
 ---
 layout: two-cols
@@ -844,6 +872,10 @@ Bit array: 0 0 0 1 0 0 ... 1 0 0 ... 1 0 ...
 
 </div>
 
+<!--
+Aurel
+-->
+
 ---
 layout: section
 ---
@@ -853,6 +885,10 @@ layout: section
 ## Multi-Column Indexes
 
 *Column order is everything*
+
+<!--
+Glenn
+-->
 
 ---
 
@@ -1052,6 +1088,10 @@ When rows are deleted or updated, old index entries become **dead tuples** — t
 
 </div>
 
+<!--
+Aurel
+-->
+
 ---
 
 # Write latency cost
@@ -1115,6 +1155,10 @@ Always check `pg_stat_user_indexes` for unused indexes.
 </div>
 
 </div>
+
+<!--
+Aurel
+-->
 
 ---
 layout: section
@@ -1182,6 +1226,10 @@ Execution Time: 0.1 ms  ← 🚀
 
 </div>
 
+<!--
+A voir si on garde ou supprime cette slide, ou alors on passe en vitesse en expliquant juste la commande explain analyze
+-->
+
 ---
 
 # Finding unused and missing indexes
@@ -1242,6 +1290,8 @@ High `seq_tup_read` on a large table = Postgres is doing full scans. Consider ad
 </div>
 
 <!--
+Glenn
+
 relname	Nom de la table. 
 
 seq_scan : Nombre de fois qu'on a lancé un scan séquentiel sur la table (lecture complète sans index). 
@@ -1318,6 +1368,10 @@ Consider materialized views or pre-aggregation instead.
 
 </div>
 
+<!--
+glenn
+-->
+
 ---
 
 # Partial indexes — index only what you query
@@ -1371,6 +1425,8 @@ CREATE INDEX idx_jobs_unprocessed
 </div>
 
 <!--
+aurel
+
 INCLUDE = ajouter un post-it sur la couverture du livre avec "auteur" et "genre" (tu lis le post-it, pas besoin d'ouvrir le livre) ← aide la lecture 
 
 Partial = créer un mini-catalogue avec SEULEMENT les livres "en cours" (~50k livres) au lieu de tous les 1M ← aide l'indexation et la recherche
@@ -1428,6 +1484,10 @@ Unused indexes are pure overhead. Audit with `pg_stat_user_indexes`.
 </div>
 
 </div>
+
+<!--
+Aurel
+-->
 
 ---
 layout: center
