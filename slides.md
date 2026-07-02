@@ -29,6 +29,61 @@ layout: center
 class: text-center
 ---
 
+# What is a database management system?
+
+<div class="text-gray-400 text-base">An abstraction between a client and the file system</div>
+
+<div class="mt-4 flex flex-col items-center gap-0 text-sm">
+
+  <div v-click class="w-72 px-5 py-3 bg-blue-900/50 border-2 border-blue-400 rounded-xl text-center">
+    <div class="text-sm font-bold text-blue-300">Client / Application</div>
+    <div class="text-gray-400 text-xs mt-0.5">Developer · ORM · BI tool</div>
+  </div>
+
+  <div v-click class="flex flex-col items-center">
+    <div class="w-px h-3 bg-gray-500"></div>
+    <div class="px-3 py-0.5 bg-gray-800 border border-gray-500 rounded-full text-xs text-gray-300 font-mono">
+      SELECT * FROM orders WHERE status = 'pending'
+    </div>
+    <div class="text-gray-500 leading-4">↓</div>
+  </div>
+
+  <div v-click class="w-72 px-5 py-3 bg-green-900/50 border-2 border-green-400 rounded-xl text-center">
+    <div class="text-sm font-bold text-green-300">PostgreSQL DBMS</div>
+    <div class="flex justify-center gap-3 mt-2 text-xs text-gray-400">
+      <span>Parse</span>
+      <span class="text-gray-600">·</span>
+      <span>Plan</span>
+      <span class="text-gray-600">·</span>
+      <span>Optimize</span>
+      <span class="text-gray-600">·</span>
+      <span>Execute</span>
+    </div>
+    <div v-click class="mt-2 text-xs text-green-400 border border-green-800 rounded px-3 py-0.5">
+      Hides storage format &amp; I/O complexity
+    </div>
+  </div>
+
+  <div v-click class="flex flex-col items-center">
+    <div class="w-px h-3 bg-gray-500"></div>
+    <div class="px-3 py-0.5 bg-gray-800 border border-gray-500 rounded-full text-xs text-gray-300 font-mono">
+      read page 42 · write WAL · fetch tuple (3, 7)
+    </div>
+    <div class="text-gray-500 leading-4">↓</div>
+  </div>
+
+  <div v-click class="w-72 px-5 py-3 bg-orange-900/50 border-2 border-orange-400 rounded-xl text-center">
+    <div class="text-sm font-bold text-orange-300">File System</div>
+    <div class="text-gray-400 text-xs mt-0.5">Heap files · Indexes · WAL</div>
+  </div>
+
+</div>
+
+---
+layout: center
+class: text-center
+---
+
 # Before indexes...
 
 <div v-click class="mt-8 text-2xl">
