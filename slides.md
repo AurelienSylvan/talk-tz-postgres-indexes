@@ -438,6 +438,12 @@ ORDER BY name           -- no sort
 
 </div>
 
+<!--
+hash la value => clé de hash % nombre de bucket => bucket ou sera stocké la value.
+
+plusieurs valeurs dans le même bucket => collision => Posgres stock les 2 valeurs dans le même bucket et compare les valeurs réelles : assez rare
+-->
+
 ---
 layout: center
 ---
