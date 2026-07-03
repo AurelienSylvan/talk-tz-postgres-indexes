@@ -391,39 +391,37 @@ class: text-center
 
 ---
 
-# Hash Index — the simplest mental model
+# Hash Index — lookup in 3 steps
 
-A hash index maps a **hash of each value** to the row location.
-
-<div class="mt-4 grid grid-cols-2 gap-8">
+<div class="mt-2 grid grid-cols-2 gap-8">
 
 <div>
 
-```
-Value       Hash     → ctid (page, row)
-──────────────────────────────────────
-"alice"  →  0x3A2F  → (page 3, row 2)
-"bob"    →  0x1C8E  → (page 1, row 0)
-"carol"  →  0x7F01  → (page 7, row 5)
-```
-
-**Lookup**: hash the value, jump directly to the bucket.  
-O(1) average complexity.
-
+<div v-click class="flex items-start gap-3 mb-3">
+  <span class="text-blue-400 font-bold mt-0.5">①</span>
+  <div class="text-sm">
+    <span class="text-blue-300 font-semibold">Hash the value</span> — a type-specific function produces a 32-bit code<br>
+    <code class="text-xs">"alice" → 0x3A2F</code>
+  </div>
 </div>
 
-<div>
-
-<div class="p-4 bg-green-900/30 border border-green-500 rounded mb-4">
-
-✅ **Use for:** pure equality checks  
-```sql
-WHERE email = 'alice@example.com'
-```
-
+<div v-click class="flex items-start gap-3 mb-3">
+  <span class="text-yellow-400 font-bold mt-0.5">②</span>
+  <div class="text-sm">
+    <span class="text-yellow-300 font-semibold">Find the bucket</span> — <code class="text-xs">hash % num_buckets</code> → bucket 7<br>
+    <span class="text-gray-400 text-xs">The <strong>metapage</strong> (page 0 of the index) maps bucket 7 → disk page 42</span>
+  </div>
 </div>
 
-<div v-click class="p-4 bg-red-900/30 border border-red-500 rounded">
+<div v-click class="flex items-start gap-3 mb-4">
+  <span class="text-green-400 font-bold mt-0.5">③</span>
+  <div class="text-sm">
+    <span class="text-green-300 font-semibold">Scan the bucket page</span> — entries are <code class="text-xs">(hash_code, ctid)</code> pairs<br>
+    <span class="text-gray-400 text-xs">Match hash → fetch heap row via ctid → verify value (handles collisions)</span>
+  </div>
+</div>
+
+<div v-click class="p-3 bg-red-900/30 border border-red-500 rounded text-xs">
 
 ❌ **Cannot do:**  
 ```sql
@@ -431,6 +429,34 @@ WHERE age > 30          -- no ordering
 WHERE name LIKE 'Al%'   -- no prefix
 ORDER BY name           -- no sort
 ```
+
+</div>
+
+</div>
+
+<div v-click>
+
+```
+  "alice"
+     │ hash fn
+     ▼
+  0x3A2F
+     │ 0x3A2F % num_buckets
+     ▼
+  bucket 7
+     │ metapage: bucket 7 → page 42
+     ▼
+  ┌─────────────────────────┐
+  │  Page 42 (bucket page)  │
+  │  (0x3A2F, page 3 row 2) │◀── match → heap fetch
+  │  (0x3A2F, page 9 row 1) │◀── collision: verify value
+  │  (0x1109, page 5 row 0) │    skip (different hash)
+  └─────────────────────────┘
+```
+
+<div class="mt-3 p-3 bg-blue-900/30 border border-blue-400 rounded text-xs">
+
+💡 The hash code is stored alongside the ctid so Postgres can skip non-matching entries without a heap fetch. Only hash collisions trigger an extra heap read to verify the real value.
 
 </div>
 
