@@ -27,7 +27,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build -- --base ./
+      - run: npm run build -- --without-notes --base ./
 
       - uses: actions/configure-pages@v5
 
